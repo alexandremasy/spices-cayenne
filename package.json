@@ -1,6 +1,6 @@
 {
-  "name": "cayenne",
-  "version": "1.0.0",
+  "name": "@spices/cayenne",
+  "version": "0.0.1",
   "description": "",
   "main": "dist/spices-cayenne.js",
   "module": "src/index.js",
@@ -8,7 +8,7 @@
     "bundle:lib": "webpack"
   },
   "keywords": [],
-  "author": "",
+  "author": "Alexandre Masy <hello@alexandremasy.com",
   "license": "ISC",
   "devDependencies": {
     "webpack": "^4.41.5",
