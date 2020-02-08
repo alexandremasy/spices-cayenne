@@ -1,0 +1,17 @@
+{
+  "name": "cayenne",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/spices-cayenne.js",
+  "module": "src/index.js",
+  "scripts": {
+    "bundle:lib": "webpack"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  }
+}
