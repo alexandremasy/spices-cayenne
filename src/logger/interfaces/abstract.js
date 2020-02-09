@@ -1,9 +1,9 @@
 import LoggerLevel from '../../level'
 
 class AbstractInterface{
-  constructor({colors, format, level, name, handler}){
+  constructor({colors, formatter, level, name, handler}){
     this.colors = colors;
-    this.format = format;
+    this.formatter = formatter;
     this.level = level;
     this.name = name;
     this.handler = handler;
@@ -34,7 +34,7 @@ class AbstractInterface{
   get context(){
     return {
       colors: this.colors,
-      format: this.format,
+      formatter: this.formatter,
       level: this.level,
       name: this.name
     }
