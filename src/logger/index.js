@@ -9,6 +9,7 @@ class Logger {
    */
   constructor(){
     this.transports = [ new ConsoleTransporter() ];
+    this.interfaces = [];
   }
 
   /**
@@ -18,14 +19,32 @@ class Logger {
    */
   get(opts){
     let options = {
-      color: opts && opts.colors ? opts.colors : true,
+      colors: opts && opts.colors ? opts.colors : true,
       formatter: opts && opts.fomatter ? opts.formatter : this._formatter,
       level: opts && opts.level ? Logger.getFromValue(opts.value) : Level.ALL,
       name: opts && opts.name ? opts.name : null,
       handler: this
     };
 
-    return new DefaultInterface(options);
+    let ret = new DefaultInterface(options);
+    this.interfaces.push(ret);
+    return ret;
+  }
+
+  /**
+   * Set the interface options
+   * @param {*} opts 
+   */
+  set(opts){
+    let options = {
+      colors: opts && opts.colors ? opts.colors : true,
+      formatter: opts && opts.fomatter ? opts.formatter : this._formatter,
+      level: opts && opts.level ? Logger.getFromValue(opts.value) : Level.ALL,
+      name: opts && opts.name ? opts.name : null,
+      handler: this
+    }
+
+    this.interfaces.forEach(iface => iface.update(options));
   }
 
   _formatter({level, messages, name}){
@@ -65,17 +84,19 @@ class Logger {
   /**
    * Get the messages to the transporters
    * @param  {Level} level      Level of the messages
+   * @param  {String} action    The action to take
    * @param  {Object} context   Context of the interface
    * @param  {*} messages       Messages to transport
    */
-  _invoke({level, context, messages }) {
+  _invoke({level, action, context, messages }) {
     messages = Array.prototype.slice.call( messages );
     messages = context.formatter.call(context.formatter, {level, messages, name: context.name});
 
     this.transports.forEach((transport) => {
       transport.invoke({
-        level,
+        action,
         context,
+        level,
         messages: messages
       })
     })

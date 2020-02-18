@@ -50,13 +50,39 @@ class AbstractInterface{
   }
 
   /**
+   * Get a new interface to log from
+   * @param  {Object} opts    The configuration object
+   * @return {Interface}      An interface to log from
+   */
+  get(opts){
+    return this.handler.get(opts);
+  }
+
+  /**
+   * Update the interface options
+   * @param {Boolean} colors 
+   * @param {Function} formatter 
+   * @param {Level} level 
+   * @param {String} name 
+   * @param {Logger} handler 
+   */
+  update({colors, formatter, level, name, handler}){
+    this.colors = colors;
+    this.formatter = formatter;
+    this.level = level;
+    this.name = name;
+    this.handler = handler;
+  }
+
+  /**
    * Invoke the handler if the level is enabled
    * @param  {Level} level    The level of the messages
+   * @param  {String} action  The action to take
    * @param  {*}     messages The messages
    */
-  _invoke({level, messages}) {
+  _invoke({action, level, messages}) {
     if (this.enabledFor(level)){
-      this.handler._invoke({level, context: this.context, messages});
+      this.handler._invoke({action, level, context: this.context, messages});
     }
   }
 }

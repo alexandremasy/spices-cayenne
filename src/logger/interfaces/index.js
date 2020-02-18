@@ -39,8 +39,24 @@ class DefaultInterface extends AbstractInterface{
   * Outputs a message with the log level "trace".
   * @param {*} ...args
   */
-  trace(){
-    this._invoke({level: Level.TRACE, messages: arguments});
+ trace(){
+   this._invoke({level: Level.TRACE, messages: arguments});
+  }
+  
+  /**
+   * Output a message as a group
+   * @param {*} ...args
+   */
+  group(){
+    this._invoke({action: 'group', level: Level.ALL, messages: arguments})
+  }
+  
+  /**
+   * Output a message as a groupEnd
+   * @param {*} ...args
+   */
+  groupEnd(){
+    this._invoke({action: 'groupEnd', level: Level.ALL, messages: arguments})
   }
 }
 

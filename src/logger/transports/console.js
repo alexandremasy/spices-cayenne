@@ -7,7 +7,7 @@ class ConsoleTransporter extends AbstractTransport {
     return (typeof console === 'undefined') ? null : console;
   }
 
-  invoke({ level, context, messages }) {
+  invoke({ action, level, context, messages }) {
     // check for the presence of console
     if (!this.console){
       return;
@@ -15,6 +15,8 @@ class ConsoleTransporter extends AbstractTransport {
 
     // methods
     let method = this.console.log;
+
+    // based on the level
     switch( level.value ){
       case Level.TRACE.value:
         method = this.console.trace;
@@ -28,6 +30,17 @@ class ConsoleTransporter extends AbstractTransport {
       case Level.ERROR.value:
         method = this.console.error;
         break;
+    }
+
+    if (action != null){
+      switch( action ){
+        case 'group':
+          method = this.console.group;
+          break;
+        case 'groupEnd': 
+          method = this.console.groupEnd;
+          break  
+      }
     }
 
     // Execute
