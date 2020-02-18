@@ -90,7 +90,9 @@ class Logger {
    */
   _invoke({level, action, context, messages }) {
     messages = Array.prototype.slice.call( messages );
-    messages = context.formatter.call(context.formatter, {level, messages, name: context.name});
+    if (!action){
+      messages = context.formatter.call(context.formatter, {level, messages, name: context.name});
+    }
 
     this.transports.forEach((transport) => {
       transport.invoke({
