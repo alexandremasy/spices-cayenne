@@ -1,6 +1,6 @@
 {
   "name": "@spices/cayenne",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "dist/spices-cayenne.js",
   "module": "src/index.js",
