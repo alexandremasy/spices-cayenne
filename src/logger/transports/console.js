@@ -1,12 +1,27 @@
 import AbstractTransport from './abstract'
 import Level from '../../level'
 
+/**
+ * @class
+ */
 class ConsoleTransporter extends AbstractTransport {
 
+  /**
+   * @readonly
+   * @private
+   * @property {console}
+   */
   get console(){
     return (typeof console === 'undefined') ? null : console;
   }
 
+  /**
+   * @param {Object} options 
+   * @param {String} options.action 
+   * @param {Level} options.level 
+   * @param {String} options.name 
+   * @param {*} options.message 
+   */
   invoke({ action, level, context, messages }) {
     // check for the presence of console
     if (!this.console){
@@ -44,28 +59,7 @@ class ConsoleTransporter extends AbstractTransport {
     }
 
     // Execute
-
-    // if (messages.length > 2 && Level.DEBUG.value == level.value){
-    //   console.group('');
-    //   Function.prototype.apply.call( method, this.console, messages );
-    //
-    //   console.groupEnd();
-    // }
-    // else{
-      Function.prototype.apply.call( method, this.console, messages );
-    // }
-
-    // if (messages.length <= 1 || [Level.TRACE.value].includes(level.value)){
-    // }
-    // else{
-    //   let first = messages.shift();
-    //   this.console.group( first );
-    //   messages.forEach(message => {
-    //     Function.prototype.apply.call( method, this.console, message );
-    //   })
-    //   this.console.groupEnd( first );
-    // }
-
+    Function.prototype.apply.call( method, this.console, messages );
   }
 }
 

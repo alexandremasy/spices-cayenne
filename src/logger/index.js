@@ -2,10 +2,13 @@ import Level from '../level'
 import ConsoleTransporter from './transports/console'
 import DefaultInterface from './interfaces'
 
+/**
+ * @class
+ */
 class Logger {
 
   /**
-   * Constructor
+   * @constructor
    */
   constructor(){
     this.transports = [ new ConsoleTransporter() ];
@@ -14,40 +17,53 @@ class Logger {
 
   /**
    * Get a new interface to log from
-   * @param  {Object} opts    The configuration object
-   * @return {Interface}      An interface to log from
+   * 
+   * @param  {Object} opts The configuration object
+   * @param  {Boolean} [opts.colors = true]
+   * @param  {Function} [opts.formatter]
+   * @param  {Level} [opts.level]
+   * @param  {String} [opts.name]
+   * @return {Interface} An interface to log from
    */
   get(opts){
-    let options = {
-      colors: opts && opts.colors ? opts.colors : true,
+    let ret = new DefaultInterface({
+      colors: opts && opts.colors && opts.colors === true,
       formatter: opts && opts.fomatter ? opts.formatter : this._formatter,
+      handler: this,
       level: opts && opts.level ? Logger.getFromValue(opts.value) : Level.ALL,
       name: opts && opts.name ? opts.name : null,
-      handler: this
-    };
-
-    let ret = new DefaultInterface(options);
+    });
     this.interfaces.push(ret);
     return ret;
   }
 
   /**
    * Set the interface options
-   * @param {*} opts 
+   * @param  {Object} opts The configuration object
+   * @param  {Boolean} [opts.colors = true]
+   * @param  {Function} [opts.formatter]
+   * @param  {Level} [opts.level]
+   * @param  {String} [opts.name]
    */
   set(opts){
     let options = {
-      colors: opts && opts.colors ? opts.colors : true,
+      colors: opts && opts.colors && opts.colors === true,
       formatter: opts && opts.fomatter ? opts.formatter : this._formatter,
+      handler: this,
       level: opts && opts.level ? Logger.getFromValue(opts.value) : Level.ALL,
       name: opts && opts.name ? opts.name : null,
-      handler: this
     }
 
     this.interfaces.forEach(iface => iface.update(options));
   }
 
-  _formatter({level, messages, name}){
+  /**
+   * @param {Object} options 
+   * @param {Messages} options.messages 
+   * @param {String} options.name 
+   * @private
+   */
+  _formatter({messages, name}){
     let d = new Date();
     let months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jui', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     let date = `${months[d.getMonth()]} ${d.getDate()}, ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
@@ -57,36 +73,23 @@ class Logger {
     let blue = 'color: lightsteelblue';
     let black = 'color: black';
     let purple = 'color: rebeccapurple';
-
-    // style - date - style - ...rest
-    let m = [
-      '%c %s %c',
-      grey,
-      date,
-      black
-    ];
-
-    if (name) {
-      // style - date - style - name - style - ...rest
-      m = [
-        '%c %s %c %s %c',
-        grey,
-        date,
-        purple,
-        name,
-        black
-      ];
-    }
+    
+    let m = name ? 
+            ['%c %s %c', grey, date, black] : // style - date - style - ...rest
+            ['%c %s %c %s %c', grey, date, purple, name, black]; // style - date - style - name - style - ...rest
 
     return m.concat(messages);
   }
 
   /**
    * Get the messages to the transporters
-   * @param  {Level} level      Level of the messages
-   * @param  {String} action    The action to take
-   * @param  {Object} context   Context of the interface
-   * @param  {*} messages       Messages to transport
+   * 
+   * @param {Object} options
+   * @param {Level} options.level      Level of the messages
+   * @param {String} options.action    The action to take
+   * @param {Object} options.context   Context of the interface
+   * @param {*} options.messages       Messages to transport
+   * @private
    */
   _invoke({level, action, context, messages }) {
     messages = Array.prototype.slice.call( messages );

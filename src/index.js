@@ -1,7 +1,2 @@
-import Logger from './logger'
-import Level from './level'
-
-export {
-  Level,
-  Logger
-}
+export { default as Logger } from './logger'
+export { default as Level } from './level'

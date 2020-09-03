@@ -1,6 +1,21 @@
-import LoggerLevel from '../../level'
+import Level from '../../level'
 
-class AbstractInterface{
+/**
+ * @abstract
+ * @interface
+ * @class
+ */
+export default class AbstractInterface {
+
+  /**
+   * @constructor
+   * @param {Object} options
+   * @param {Boolean} options.colors
+   * @param {Function} options.formatter
+   * @param {Level} options.level
+   * @param {String} options.name
+   * @param {Function} options.handler
+   */
   constructor({colors, formatter, level, name, handler}){
     this.colors = colors;
     this.formatter = formatter;
@@ -86,5 +101,3 @@ class AbstractInterface{
     }
   }
 }
-
-export default AbstractInterface

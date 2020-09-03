@@ -1,7 +1,10 @@
 import Level from '../../level'
 import AbstractInterface from './abstract'
 
-class DefaultInterface extends AbstractInterface{
+/**
+ * @class
+ */
+export default class DefaultInterface extends AbstractInterface{
 
   /**
    * Outputs a message with the log level "debug".
@@ -59,5 +62,3 @@ class DefaultInterface extends AbstractInterface{
     this._invoke({action: 'groupEnd', level: Level.ALL, messages: arguments})
   }
 }
-
-export default DefaultInterface
