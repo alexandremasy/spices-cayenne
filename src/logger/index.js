@@ -33,6 +33,7 @@ class Logger {
       level: opts && opts.level ? Logger.getFromValue(opts.value) : Level.ALL,
       name: opts && opts.name ? opts.name : null,
     });
+
     this.interfaces.push(ret);
     return ret;
   }
@@ -75,12 +76,12 @@ class Logger {
     let purple = 'color: rebeccapurple';
     
     let m = name ? 
-            ['%c %s %c', grey, date, black] : // style - date - style - ...rest
-            ['%c %s %c %s %c', grey, date, purple, name, black]; // style - date - style - name - style - ...rest
+            ['%c %s %c %s %c', grey, date, purple, name, black] : // style - date - style - name - style - ...rest
+            ['%c %s %c', grey, date, black]; // style - date - style - ...rest
 
     return m.concat(messages);
   }
-
+          
   /**
    * Get the messages to the transporters
    * 

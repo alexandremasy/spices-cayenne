@@ -17,11 +17,26 @@ export default class AbstractInterface {
    * @param {Function} options.handler
    */
   constructor({colors, formatter, level, name, handler}){
-    this.colors = colors;
-    this.formatter = formatter;
-    this.level = level;
-    this.name = name;
-    this.handler = handler;
+    this._colors = colors;
+    this._formatter = formatter;
+    this._level = level;
+    this._name = name;
+    this._handler = handler;
+  }
+
+  /////////////////////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * Return the context of the interace
+   * @return {Object}
+   */
+  get context() {
+    return {
+      colors: this._colors,
+      formatter: this._formatter,
+      level: this._level,
+      name: this._name
+    }
   }
 
   /**
@@ -42,18 +57,7 @@ export default class AbstractInterface {
     }
   }
 
-  /**
-   * Return the context of the interace
-   * @return {Object}
-   */
-  get context(){
-    return {
-      colors: this.colors,
-      formatter: this.formatter,
-      level: this.level,
-      name: this.name
-    }
-  }
+  /////////////////////////////////////////////////////////////////////////////////////////////
 
   /**
    * Is the logger enabled for the given level
@@ -70,7 +74,7 @@ export default class AbstractInterface {
    * @return {Interface}      An interface to log from
    */
   get(opts){
-    return this.handler.get(opts);
+    return this._handler.get(opts);
   }
 
   /**
@@ -82,11 +86,11 @@ export default class AbstractInterface {
    * @param {Logger} handler 
    */
   update({colors, formatter, level, name, handler}){
-    this.colors = colors;
-    this.formatter = formatter;
-    this.level = level;
-    this.name = name;
-    this.handler = handler;
+    this._colors = colors;
+    this._formatter = formatter;
+    this._level = level;
+    this._name = name;
+    this._handler = handler;
   }
 
   /**
@@ -97,7 +101,7 @@ export default class AbstractInterface {
    */
   _invoke({action, level, messages}) {
     if (this.enabledFor(level)){
-      this.handler._invoke({action, level, context: this.context, messages});
+      this._handler._invoke({action, level, context: this.context, messages});
     }
   }
 }
