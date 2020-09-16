@@ -53,10 +53,19 @@ export default class Level {
 
   /**
    * Get the level from its value
-   * @param  {Int} value The level value
-   * @return {Level|null}     The level object or null
+   * @param  {Number} value The level value
+   * @return {Level} The level object or null
    */
   static getFromValue(value){
     return [Level.OFF, Level.TRACE, Level.DEBUG, Level.INFO, Level.TIME, Level.WARN, Level.ERROR, Level.ALL].find(e => e.value === value)
+  }
+  
+  /**
+   * Get the level from its name
+   * @param {String} value The level name
+   * @return {Level} The level object or null
+   */
+  static getFromName(value){
+    return [Level.OFF, Level.TRACE, Level.DEBUG, Level.INFO, Level.TIME, Level.WARN, Level.ERROR, Level.ALL].find(e => e.name === value)
   }
 }
